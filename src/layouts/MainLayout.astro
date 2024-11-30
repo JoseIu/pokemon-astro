@@ -1,11 +1,14 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
 import 'cal-sans';
+import { siteInfo } from 'src/constant/siteInfo';
 import '../styles/global.css';
 type Props = {
   title: string;
+  image?: string;
+  description?: string;
 };
-const { title } = Astro.props;
+const { title = siteInfo.title, description = siteInfo.description, image } = Astro.props;
 ---
 
 <html lang="en">
@@ -14,6 +17,14 @@ const { title } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
+    <!-- SEO -->
+    <meta name="description" content={description} />
+    <meta name="author" content={siteInfo.author} />
+    <!-- Meta Tags -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:imgae" content={image} />
+    <meta property="og:type" content="website" />
     <title>{title}</title>
     <ViewTransitions />
   </head>
@@ -23,3 +34,9 @@ const { title } = Astro.props;
     </main>
   </body>
 </html>
+
+<!-- <style>
+  @view-transition {
+    navigation: auto; /* enabled! */
+  }
+</style> -->

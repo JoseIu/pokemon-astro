@@ -10,6 +10,7 @@ const pokemons: PokemonResp = await resp.json();
 <MainLayout title="Pokemons">
   <section class="wrapper">
     <h1>Pokemons List</h1>
+    <a href="/pokemons/1">Watch 151 first pokemon</a>
     <PokemonList pokemos={pokemons.results} />
   </section>
 </MainLayout>

@@ -1,0 +1,13 @@
+---
+import { FavoritePokemons } from '@components/react/favorite-pokemons/FavoritePokemons';
+import MainLayout from '@layouts/MainLayout.astro';
+---
+
+<MainLayout title="">
+  <section class="wrapper">
+    <h1>Favorites</h1>
+    <p>Here you can see your favorite pokemons</p>
+
+    <FavoritePokemons client:only="react" />
+  </section>
+</MainLayout>

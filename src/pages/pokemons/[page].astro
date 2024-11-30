@@ -1,8 +1,8 @@
 ---
+import PokemonList from '@components/pokemon-list/PokemonList.astro';
+import type { PokemonResp } from '@interfaces/pokemon.inertface';
+import MainLayout from '@layouts/MainLayout.astro';
 import type { GetStaticPaths } from 'astro';
-import PokemonList from '../../components/pokemon-list/PokemonList.astro';
-import type { PokemonResp } from '../../interfaces/pokemon.inertface';
-import MainLayout from '../../layouts/MainLayout.astro';
 
 export const getStaticPaths = (async ({ paginate }) => {
   const resp = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');

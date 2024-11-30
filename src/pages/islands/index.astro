@@ -1,0 +1,10 @@
+---
+import { Counter } from '@components/react/counter/Counter';
+import MainLayout from '@layouts/MainLayout.astro';
+---
+
+<MainLayout title="Islands">
+  <section class="wrapper">
+    <Counter transition:persist="counter" client:only="react" initialCount={30} />
+  </section>
+</MainLayout>

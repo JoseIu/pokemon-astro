@@ -2,6 +2,7 @@
 import type { PokemonResp } from '@interfaces/pokemon.inertface';
 import MainLayout from '@layouts/MainLayout.astro';
 import type { GetStaticPaths } from 'astro';
+import { Icon } from 'astro-icon/components';
 
 export const getStaticPaths = (async () => {
   const resp = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
@@ -23,9 +24,15 @@ const pokemonAudio = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries
 
 <MainLayout title={name}>
   <section class="wrapper">
-    <a href="/">GO BACK</a>
+    <button class="back" onclick="history.back()">
+      <Icon name="arrowBack" class="back__icon" />
+    </button>
 
     <article class="pokemon-details">
+      <button id="fav-button" data-name={name} data-id={pokemonID}>
+        <Icon id="fav-outLine" name="heartOutline" size={50} />
+        <Icon id="fav-full" name="heartFull" class="hidden" size={50} />
+      </button>
       <img
         width="521"
         height="512"
@@ -42,6 +49,51 @@ const pokemonAudio = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries
     </article>
   </section>
 </MainLayout>
+<script>
+  interface FavoritePokemon {
+    name: string;
+    id: number;
+  }
+  const handlePageLoad = () => {
+    let favoritesPokemons: FavoritePokemon[] = JSON.parse(localStorage.getItem('favoritesPokemon') ?? '[]');
+    const btnFavorite = document.querySelector('#fav-button') as HTMLButtonElement;
+    if (!btnFavorite) return;
+    const pokemonName = btnFavorite.dataset.name ?? '';
+    const pokemonID = Number(btnFavorite.dataset.id);
+
+    const heartOutline = document.querySelector('#fav-outLine') as HTMLElement;
+    const heartFull = document.querySelector('#fav-full') as HTMLElement;
+
+    const isFavorite = favoritesPokemons.some(pokemon => pokemon.name === pokemonName);
+
+    const toggleHeart = () => {
+      if (isFavorite) {
+        heartOutline.classList.add('hidden');
+        heartFull.classList.remove('hidden');
+      } else {
+        heartFull.classList.remove('hidden');
+        heartFull.classList.add('hidden');
+      }
+    };
+    const toggleFavorite = () => {
+      if (isFavorite) {
+        favoritesPokemons = favoritesPokemons.filter(pokemon => pokemon.name !== pokemonName);
+      } else {
+        favoritesPokemons.push({ name: pokemonName, id: pokemonID });
+      }
+      localStorage.setItem('favoritesPokemon', JSON.stringify(favoritesPokemons));
+    };
+    toggleHeart();
+
+    btnFavorite.addEventListener('click', () => {
+      heartFull.classList.toggle('hidden');
+      heartOutline.classList.toggle('hidden');
+      toggleFavorite();
+    });
+  };
+
+  document.addEventListener('astro:page-load', handlePageLoad);
+</script>
 
 <style>
   .pokemon-details {
@@ -55,5 +107,18 @@ const pokemonAudio = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries
   }
   .pokemon-details__image {
     aspect-ratio: 9/9;
+  }
+  .back {
+    width: 4rem;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+  .back__icon {
+    font-size: 2.5rem;
+  }
+  .hidden {
+    display: none;
   }
 </style>

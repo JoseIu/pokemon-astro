@@ -1,0 +1,61 @@
+---
+import type { PokemonResp } from '@interfaces/pokemon.inertface';
+import MainLayout from '@layouts/MainLayout.astro';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths = (async () => {
+  const data = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
+  const { results } = (await data.json()) as PokemonResp;
+
+  return results.map(pokemon => ({
+    params: {
+      id: pokemon.url.split('/').at(-2)
+    },
+    props: {
+      name: pokemon.name
+    }
+  }));
+}) satisfies GetStaticPaths;
+
+const { id } = Astro.params;
+const { name } = Astro.props;
+const pokemonImage = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${id}.png`;
+const pokemonAudio = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/legacy/${id}.ogg`;
+---
+
+<MainLayout title={id!}>
+  <section class="wrapper">
+    <a href="/">GO BACK</a>
+
+    <article class="pokemon-details">
+      <img
+        width="521"
+        height="512"
+        class="pokemon-details__image"
+        src={pokemonImage}
+        alt={name}
+        transition:name={`${name}-image`}
+      />
+      <h1 class="pokemon-details__title">#{id} {name}</h1>
+      <audio controls>
+        <source src={pokemonAudio} type="audio/ogg" />
+        Your browser does not support the audio element.
+      </audio>
+    </article>
+  </section>
+</MainLayout>
+
+<style>
+  .pokemon-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .pokemon-details__title {
+    font-size: clamp(1.5rem, 2.5rem, 3rem);
+    text-transform: capitalize;
+  }
+  .pokemon-details__image {
+    aspect-ratio: 9/9;
+  }
+</style>

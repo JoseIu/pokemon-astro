@@ -50,10 +50,8 @@ const pokemonAudio = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries
   </section>
 </MainLayout>
 <script>
-  interface FavoritePokemon {
-    name: string;
-    id: number;
-  }
+  import type { FavoritePokemon } from '@interfaces/favoritesPokemon.interface';
+
   const handlePageLoad = () => {
     let favoritesPokemons: FavoritePokemon[] = JSON.parse(localStorage.getItem('favoritesPokemon') ?? '[]');
     const btnFavorite = document.querySelector('#fav-button') as HTMLButtonElement;

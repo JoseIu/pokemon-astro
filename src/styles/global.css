@@ -43,3 +43,8 @@ h5,
 h6 {
   font-family: 'Cal Sans', system-ui, sans-serif;
 }
+button {
+  border: none;
+  background-color: transparent;
+  color: inherit;
+}

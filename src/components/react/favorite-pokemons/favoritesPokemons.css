@@ -1,0 +1,21 @@
+.pokemons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 1rem;
+}
+.pokemon {
+  padding: 1rem;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 0.3rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.pokemon__image {
+  aspect-ratio: 1/1;
+}
+.pokemon__name {
+  text-transform: capitalize;
+}

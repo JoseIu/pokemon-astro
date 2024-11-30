@@ -1,0 +1,26 @@
+---
+import type { Pokemon } from '../../interfaces/pokemon.inertface';
+import './pokemonCard.css';
+
+type Props = {
+  pokemon: Pokemon;
+};
+const { pokemon } = Astro.props;
+
+const pokemonID = pokemon.url.split('/').at(-2);
+
+const pokemonImage = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonID}.png`;
+---
+
+<article class="pokemon">
+  <a href={`/pokemons/${pokemon.name}`}>
+    <img
+      class="pokemon__image"
+      src={pokemonImage}
+      alt={pokemon.name}
+      transition:name={`${pokemon.name}-image`}
+    />
+  </a>
+
+  <h2 class="pokemon__name">{pokemon.name}</h2>
+</article>

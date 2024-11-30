@@ -1,16 +1,15 @@
 ---
+import PokemonList from '../components/pokemon-list/PokemonList.astro';
+import type { PokemonResp } from '../interfaces/pokemon.inertface';
+import MainLayout from '../layouts/MainLayout.astro';
 
+const resp = await fetch('https://pokeapi.co/api/v2/pokemon');
+const pokemons: PokemonResp = await resp.json();
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<MainLayout title="Pokemons">
+  <section class="wrapper">
+    <h1>Pokemons List</h1>
+    <PokemonList pokemos={pokemons.results} />
+  </section>
+</MainLayout>

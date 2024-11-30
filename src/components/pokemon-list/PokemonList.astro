@@ -1,0 +1,15 @@
+---
+import type { Pokemon } from '../../interfaces/pokemon.inertface';
+import PokemonCard from '../pokemon-card/PokemonCard.astro';
+import './pokemonList.css';
+
+type Props = {
+  pokemos: Pokemon[];
+};
+
+const { pokemos } = Astro.props;
+---
+
+<div aria-label="list of pokemons" class="pokemons">
+  {pokemos.map(pokemon => <PokemonCard pokemon={pokemon} />)}
+</div>

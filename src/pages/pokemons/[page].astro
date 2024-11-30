@@ -1,0 +1,51 @@
+---
+import type { GetStaticPaths } from 'astro';
+import PokemonList from '../../components/pokemon-list/PokemonList.astro';
+import type { PokemonResp } from '../../interfaces/pokemon.inertface';
+import MainLayout from '../../layouts/MainLayout.astro';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const resp = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
+  const { results }: PokemonResp = await resp.json();
+  return paginate(results, { pageSize: 16 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+---
+
+<MainLayout title="Pokemons">
+  <section class="wrapper">
+    <h1>Pokemons List</h1>
+    <PokemonList pokemos={page.data} />
+
+    <div class="pagination">
+      <a class:list={['pagination__btn', { disabled: !page.url.prev }]} href={page.url.prev}>Previos</a>
+      <span class="pagination__page"> {page.currentPage}/{page.lastPage}</span>
+      <a class:list={['pagination__btn', { disabled: !page.url.next }]} href={page.url.next}>Next</a>
+    </div>
+  </section>
+</MainLayout>
+
+<style>
+  .pagination {
+    padding-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .pagination__btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    text-decoration: none;
+    color: var(--text-color);
+  }
+  .pagination__page {
+    font-size: 1.3rem;
+  }
+  .disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+</style>

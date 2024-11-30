@@ -1,0 +1,16 @@
+.counter__title {
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+}
+
+.counter__value {
+}
+.counter__actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.counter__btn {
+  background-color: var(--card-bg);
+  padding: 0.3rem 1rem;
+  border: 0.0625rem solid var(--border-color);
+}

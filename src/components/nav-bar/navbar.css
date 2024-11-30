@@ -1,0 +1,27 @@
+.nav {
+  padding: 1rem;
+  background-color: var(--card-bg);
+  border: 0.0625rem solid var(--border-color);
+}
+.nav__list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.nav__item {
+  position: relative;
+}
+.nav__link {
+  text-decoration: none;
+  color: var(--text-color);
+}
+.active {
+  position: absolute;
+  bottom: -0.325rem;
+  width: 100%;
+  background-color: var(--border-color);
+  height: 0.125rem;
+}

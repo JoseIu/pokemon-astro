@@ -1,0 +1,46 @@
+---
+import './navbar.css';
+
+const links = [
+  { href: '/', text: 'Pokemons' },
+  { href: '/pokemons/1', text: 'Pagination' },
+  { href: '/favorites', text: 'Favorites' }
+];
+
+const currentPage = Astro.url.pathname;
+---
+
+<header class="wrapper">
+  <nav class="nav">
+    <ul class="nav__list">
+      <!-- {
+        links.map(({ href, text }) => (
+          <li class="nav__item">
+            <a
+              class:list={[
+                'nav__link',
+                {
+                  active: currentPage === href
+                }
+              ]}
+              href={href}
+            >
+              {text}
+            </a>
+          </li>
+        ))
+      } -->
+
+      {
+        links.map(({ href, text }) => (
+          <li class="nav__item">
+            <a class="nav__link" href={href}>
+              {text}
+            </a>
+            {currentPage === href && <div class="active" transition:name="menu-line" />}
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>

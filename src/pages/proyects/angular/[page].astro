@@ -1,0 +1,84 @@
+---
+import Filters from '@components/filters/Filters.astro';
+import MainLayout from '@layouts/MainLayout.astro';
+import type { GetStaticPaths } from 'astro';
+import { PROYECTS } from 'src/constant/siteInfo';
+
+export const getStaticPaths = (({ paginate }) => {
+  const proyects = PROYECTS.filter(proyect => proyect.tegnologies === 'Angular');
+
+  return paginate(proyects, { pageSize: 3 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+---
+
+<MainLayout title="Angular">
+  <section>
+    <h1>Angular</h1>
+    <Filters />
+
+    <div class="cards">
+      {
+        page.data.map(proyect => (
+          <article class="card" transition:name={`proyect-${proyect.id}`}>
+            <h2>{proyect.title}</h2>
+            <p>{proyect.description}</p>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="pagination">
+      <a class="pagination__btn" href={page.url.prev}>Previus</a>
+      <span class="pagination__number">{page.currentPage}/{page.lastPage}</span>
+      <a class="pagination__btn" href={page.url.next}>Next</a>
+    </div>
+  </section>
+</MainLayout>
+
+<style>
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+    gap: 1rem;
+  }
+  .card {
+    padding: 1rem;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 0.3rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .filters {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+  .filters__btn {
+    padding: 0.3rem 2rem;
+    border: 1px solid var(--border-color);
+    text-decoration: none;
+    color: white;
+  }
+  .pagination {
+    padding: 1rem;
+  }
+
+  .pagination__number {
+    font-size: 1.3rem;
+  }
+  .pagination__btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    text-decoration: none;
+    color: var(--text-color);
+  }
+</style>

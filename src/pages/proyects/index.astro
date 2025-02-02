@@ -1,0 +1,43 @@
+---
+import Filters from '@components/filters/Filters.astro';
+import MainLayout from '@layouts/MainLayout.astro';
+import { PROYECTS } from 'src/constant/siteInfo';
+
+const proyects = PROYECTS;
+---
+
+<MainLayout title="Proyects">
+  <section class="wrapper">
+    <h1>Proyects</h1>
+
+    <Filters />
+    <div class="cards">
+      {
+        proyects.map(proyect => (
+          <article class="card" transition:name={`proyect-${proyect.id}`}>
+            <h2>{proyect.title}</h2>
+            <p>{proyect.description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</MainLayout>
+
+<style>
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+    gap: 1rem;
+  }
+  .card {
+    padding: 1rem;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 0.3rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+</style>
